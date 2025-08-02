@@ -1,34 +1,22 @@
+function getPlayerGuess(attemptLabel = "") {
+    const userInput = prompt(`${attemptLabel}Enter a whole number between 1 and 100:`);
 
-//Function to get a valid guess from the player
-function getPlayerGuess(maxAttempts = 5) {
-    let attempts = 0;
-
-    while (attempts < maxAttempts) {
-        const userInput = prompt(`Attempt ${attempts + 1} of ${maxAttempts}:\nEnter a whole number between 1 and 100:`);// Prompt the user for input
-
-        // Check if the user pressed Cancel
-        if (userInput === null) {
-            alert("You cancelled the input. Please enter a number to continue.");
-            attempts++;
-            continue;
-        }
-
-        // Check if the input is a valid whole number between 1 and 100
-        if (/^\d+$/.test(userInput)) {
-            const userGuess = Number(userInput);
-            if (Number.isInteger(userGuess) && userGuess >= 1 && userGuess <= 100) {
-                return userGuess;
-            }
-        }
-        // If the input is invalid, alert the user and increment attempts
-        alert("🚫 Invalid input. Please enter a **whole number** between 1 and 100 (no letters or decimals).");
-        attempts++;
+    if (userInput === null) {
+        alert("You cancelled the input. Please enter a number to continue.");
+        return null;
     }
 
-    throw new Error("Too many invalid attempts. Game aborted.");
+    if (/^\d+$/.test(userInput)) {
+        const userGuess = Number(userInput);
+        if (Number.isInteger(userGuess) && userGuess >= 1 && userGuess <= 100) {
+            return userGuess;
+        }
+    }
+
+    alert("🚫 Invalid input. Please enter a **whole number** between 1 and 100 (no letters or decimals).");
+    return undefined;
 }
 
-//Function to check the player's guess against the correct number
 function checkGuess(playerGuess, correctNumber) {
     if (playerGuess < correctNumber) {
         return "Too low! 🔽 Try a higher number.";
@@ -39,44 +27,49 @@ function checkGuess(playerGuess, correctNumber) {
     }
 }
 
-//Main function to play the number guessing game
 function playGame() {
-    const correctNumber = Math.floor(Math.random() * 100) + 1;// Generate a random number between 1 and 100
-    const maxTries = 10; // Maximum number of attempts allowed
+    const correctNumber = Math.floor(Math.random() * 100) + 1;
+    const maxTries = 10;
     let attempts = 0;
 
-    // Welcome message and instructions
     alert("🎯 Welcome to the Number Guessing Game!\nI'm thinking of a number between 1 and 100.\nCan you guess it?");
 
-    // Loop until the player guesses the correct number or runs out of attempts
     while (attempts < maxTries) {
-        try {
-            const userGuess = getPlayerGuess();
-            attempts++;
-            const result = checkGuess(userGuess, correctNumber);
-            alert(result);
-            // If the guess is correct, congratulate the player and exit the loop
-            if (userGuess === correctNumber) {
-                alert(`👏 You got it in ${attempts} attempt${attempts > 1 ? 's' : ''}!`);
-                break;
-            }
-            // If the guess is incorrect, inform the player and continue
-            if (attempts === maxTries) {
-                alert(`😞 You've used all ${maxTries} attempts.\nThe correct number was: ${correctNumber}`);
-            }
-        } catch (error) {
-            alert(error.message);
+        const attemptLabel = `Attempt ${attempts + 1} of ${maxTries}:\n`;
+        const userGuess = getPlayerGuess(attemptLabel);
+
+        if (userGuess === null) {
+            // User canceled
+            alert("Game cancelled. Goodbye!");
             return;
         }
+
+        if (userGuess === undefined) {
+            // Invalid input, but count as an attempt
+            attempts++;
+            continue;
+        }
+
+        attempts++;
+        const result = checkGuess(userGuess, correctNumber);
+        alert(result);
+
+        if (userGuess === correctNumber) {
+            alert(`👏 You got it in ${attempts} attempt${attempts > 1 ? 's' : ''}!`);
+            break;
+        }
+
+        if (attempts === maxTries) {
+            alert(`😞 You've used all ${maxTries} attempts.\nThe correct number was: ${correctNumber}`);
+        }
     }
-    // Ask the player if they want to play again
+
     const playAgain = confirm("🔁 Do you want to play again?");
     if (playAgain) {
-        playGame(); // Restart the game
+        playGame();
     } else {
         alert("👋 Thanks for playing! Goodbye.");
     }
 }
 
-// Start the game
 playGame();
