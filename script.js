@@ -28,20 +28,22 @@ function getPlayerGuess(maxAttempts = 5) {
 // Function to check the player's guess against the correct number
 function checkGuess(playerGuess, correctNumber) {
     if (playerGuess < correctNumber) {
-        return "Too low! Try again, a higher number.";
+        return "Too low! Try a higher number.";
     } else if (playerGuess > correctNumber) {
-        return "Too high! Try again, lower number this time.";
+        return "Too high! Try a lower number.";
     } else {
-        return "You guessed correctly!";
+        return "🎉 You guessed correctly!";
     }
 }
 
+// Function to play the game
 function playGame() {
     const correctNumber = Math.floor(Math.random() * 100) + 1;
     let attemptsLeft = 7;
 
     while (attemptsLeft > 0) {
         let guess;
+
         try {
             guess = getPlayerGuess();
         } catch (e) {
@@ -52,24 +54,29 @@ function playGame() {
         const feedback = checkGuess(guess, correctNumber);
         alert(feedback);
 
-        if (feedback === "You guessed correctly!") {  // ✅ Fixed case
-            document.getElementById("result").textContent = `🎉 The number was ${correctNumber}! You guessed it!`;
+        if (feedback === "🎉 You guessed correctly!") {
+            console.log(`🎯 The number was ${correctNumber}.`);
             return;
         }
 
         attemptsLeft--;
+        if (attemptsLeft > 0) {
+            alert(`❗ You have ${attemptsLeft} attempts left.`);
+        }
     }
 
-    document.getElementById("result").textContent = `😢 Out of attempts! The number was ${correctNumber}.`;
+    alert(`😢 Out of attempts! The number was ${correctNumber}.`);
+    console.log(`Game over. The correct number was ${correctNumber}.`);
 }
 
-// Play again function
+// Game loop
 function startGame() {
     do {
         playGame();
-    } while (confirm("🔄 Do you want to play again?"));
+    } while (confirm("🔁 Do you want to play again?"));
+
     alert("👋 Thanks for playing!");
 }
 
-// Start Button click
-document.getElementById("start-button").addEventListener("click", startGame);
+// Start the game
+startGame();
