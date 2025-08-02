@@ -1,26 +1,22 @@
-
-//Function to get a valid guess from the player
 function getPlayerGuess(maxAttempts = 5) {
     let attempts = 0;
 
     while (attempts < maxAttempts) {
-        const userInput = prompt(`Attempt ${attempts + 1} of ${maxAttempts}:\nEnter a whole number between 1 and 100:`);// Prompt the user for input
+        const userInput = prompt(Attempt ${attempts + 1} of ${maxAttempts}:\nEnter a whole number between 1 and 100:);
 
-        // Check if the user pressed Cancel
         if (userInput === null) {
             alert("You cancelled the input. Please enter a number to continue.");
             attempts++;
             continue;
         }
 
-        // Check if the input is a valid whole number between 1 and 100
         if (/^\d+$/.test(userInput)) {
             const userGuess = Number(userInput);
             if (Number.isInteger(userGuess) && userGuess >= 1 && userGuess <= 100) {
                 return userGuess;
             }
         }
-        // If the input is invalid, alert the user and increment attempts
+
         alert("🚫 Invalid input. Please enter a **whole number** between 1 and 100 (no letters or decimals).");
         attempts++;
     }
@@ -28,55 +24,51 @@ function getPlayerGuess(maxAttempts = 5) {
     throw new Error("Too many invalid attempts. Game aborted.");
 }
 
-//Function to check the player's guess against the correct number
+// Function to check the player's guess against the correct number
 function checkGuess(playerGuess, correctNumber) {
     if (playerGuess < correctNumber) {
-        return "Too low! 🔽 Try a higher number.";
+        return "Too low! Try again, a higher number.";
     } else if (playerGuess > correctNumber) {
-        return "Too high! 🔼 Try a lower number.";
+        return "Too high! Try again, lower number this time.";
     } else {
-        return "🎉 Correct! You guessed the number!";
+        return "You guessed correctly!";
     }
 }
 
-//Main function to play the number guessing game
 function playGame() {
-    const correctNumber = Math.floor(Math.random() * 100) + 1;// Generate a random number between 1 and 100
-    const maxTries = 10; // Maximum number of attempts allowed
-    let attempts = 0;
+    const correctNumber = Math.floor(Math.random() * 100) + 1;
+    let attemptsLeft = 7;
 
-    // Welcome message and instructions
-    alert("🎯 Welcome to the Number Guessing Game!\nI'm thinking of a number between 1 and 100.\nCan you guess it?");
-
-    // Loop until the player guesses the correct number or runs out of attempts
-    while (attempts < maxTries) {
+    while (attemptsLeft > 0) {
+        let guess;
         try {
-            const userGuess = getPlayerGuess();
-            attempts++;
-            const result = checkGuess(userGuess, correctNumber);
-            alert(result);
-            // If the guess is correct, congratulate the player and exit the loop
-            if (userGuess === correctNumber) {
-                alert(`👏 You got it in ${attempts} attempt${attempts > 1 ? 's' : ''}!`);
-                break;
-            }
-            // If the guess is incorrect, inform the player and continue
-            if (attempts === maxTries) {
-                alert(`😞 You've used all ${maxTries} attempts.\nThe correct number was: ${correctNumber}`);
-            }
-        } catch (error) {
-            alert(error.message);
+            guess = getPlayerGuess();
+        } catch (e) {
+            alert(e.message);
             return;
         }
+
+        const feedback = checkGuess(guess, correctNumber);
+        alert(feedback);
+
+        if (feedback === "You guessed correctly!") {  // ✅ Fixed case
+            document.getElementById("result").textContent = 🎉 The number was ${correctNumber}! You guessed it!;
+            return;
+        }
+
+        attemptsLeft--;
     }
-    // Ask the player if they want to play again
-    const playAgain = confirm("🔁 Do you want to play again?");
-    if (playAgain) {
-        playGame(); // Restart the game
-    } else {
-        alert("👋 Thanks for playing! Goodbye.");
-    }
+
+    document.getElementById("result").textContent = 😢 Out of attempts! The number was ${correctNumber}.;
 }
 
-// Start the game
-playGame();
+// Play again function
+function startGame() {
+    do {
+        playGame();
+    } while (confirm("🔄 Do you want to play again?"));
+    alert("👋 Thanks for playing!");
+}
+
+// Start Button click
+document.getElementById("start-button").addEventListener("click", startGame);
