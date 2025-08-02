@@ -1,19 +1,38 @@
-# 🎯 Number Guessing Game 
+# 🎯 Number Guessing Game
 
-A fun number guessing game built entirely in **vanilla JavaScript**, using only built-in browser dialogs: `prompt()`, `alert()`, and `confirm()` — no HTML or CSS required.
-## 🕹️ Features
+A simple interactive JavaScript game where the player tries to guess a randomly generated number between 1 and 100. The game provides feedback after each guess and limits the number of attempts.
 
-- Guess a random number between **1 and 100**
-- Validates input: **whole numbers only**
-- Gives feedback: _Too high_, _Too low_, or _Correct!_
-- Limits number of attempts
-- Option to **play again** after each round
-- Handles invalid inputs and user cancellations
+## 🕹️ How to Play
 
-## 🚀 How to Run
+- The computer selects a **random number** between **1 and 100**.
+- The player has **10 attempts** to guess the number correctly.
+- After each guess, the game provides hints:
+  - 🔼 "Too high!" if the guess is higher than the target number.
+  - 🔽 "Too low!" if the guess is lower than the target number.
+  - 🎉 "Correct!" if the guess is spot on.
+- Invalid inputs (non-numbers, decimals, empty, etc.) count as attempts and will prompt an error message.
+- The player can cancel at any time or restart the game when it's over.
 
-1. Open your browser's developer console (F12 or right-click → _Inspect_ → **Console**)
-2. Paste the entire game code into the console (script.js)
-3. Hit **Enter** and play the game
+## 🧠 Features
 
-Alternatively, create a local `.js` file and run it in the browser using a bookmarklet or dev console.
+- Input validation (only whole numbers between 1 and 100 accepted)
+- Clear feedback and visual cues via emojis
+- Prompts and alerts for easy interaction
+- Play-again functionality after the game ends
+- Error handling for invalid or canceled input
+
+## 💻 Technologies
+
+- HTML (for embedding the script)
+- JavaScript (core game logic using `prompt()`, `alert()`, and `confirm()`)
+
+## 🚀 Getting Started
+
+1. Clone or download this repository.
+2. Open the HTML file in any modern web browser.
+3. Play the game directly in the browser using prompts and alerts.
+
+### Example
+
+```javascript
+playGame(); // Starts the game
