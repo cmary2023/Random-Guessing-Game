@@ -1,8 +1,8 @@
-
-// Function to get a valid guess from the player (no attempt tracking here!)
-function getPlayerGuess(maxAttempts = 5) {
-
- const userInput = prompt(`Attempt ${attempts + 1} of ${maxAttempts}:\nEnter a whole number between 1 and 100:`);// Prompt the user for input
+// Function to get a valid guess from the player
+// Now takes 'attempts' and 'maxTries' as arguments to display in the prompt
+function getPlayerGuess(attempts, maxTries) {
+    const promptMessage = `Attempt ${attempts + 1} of ${maxTries}:\nEnter a whole number between 1 and 100:`;
+    const userInput = prompt(promptMessage); // Prompt the user for input
 
     if (userInput === null) {
         return null; // user cancelled
@@ -19,8 +19,7 @@ function getPlayerGuess(maxAttempts = 5) {
     return undefined; // invalid input
 }
 
-
-//Function to check the player's guess against the correct number
+// Function to check the player's guess against the correct number
 function checkGuess(playerGuess, correctNumber) {
     if (playerGuess < correctNumber) {
         return "Too low! 🔽 Try a higher number.";
@@ -31,8 +30,8 @@ function checkGuess(playerGuess, correctNumber) {
     }
 }
 
-//Main function to play the number guessing game
-   function playGame() {
+// Main function to play the number guessing game
+function playGame() {
     const correctNumber = Math.floor(Math.random() * 100) + 1;
     const maxTries = 10;
     let attempts = 0;
@@ -40,8 +39,8 @@ function checkGuess(playerGuess, correctNumber) {
     alert("🎯 Welcome to the Number Guessing Game!\nI'm thinking of a number between 1 and 100.\nCan you guess it?");
 
     while (attempts < maxTries) {
-        const attemptLabel = `Attempt ${attempts + 1} of ${maxTries}:\n`;
-        const userGuess = getPlayerGuess(attemptLabel);
+        // Pass the current 'attempts' and 'maxTries' to the function
+        const userGuess = getPlayerGuess(attempts, maxTries);
 
         if (userGuess === null) {
             alert("Game cancelled. Goodbye!");
@@ -70,10 +69,11 @@ function checkGuess(playerGuess, correctNumber) {
 
     const playAgain = confirm("🔁 Do you want to play again?");
     if (playAgain) {
-        playGame();
+        playGame(); // Recursive call to restart the game
     } else {
         alert("👋 Thanks for playing! Goodbye.");
     }
 }
 
+// Start the game
 playGame();
