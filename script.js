@@ -1,7 +1,10 @@
 
 // Function to get a valid guess from the player (no attempt tracking here!)
-function getPlayerGuess(attemptLabel = "") {
-    const userInput = prompt(`${attemptLabel}Enter a whole number between 1 and 100:`);
+function getPlayerGuess(maxAttempts = 5) {
+    let attempts = 0;
+
+    while (attempts < maxAttempts) {
+        const userInput = prompt(`Attempt ${attempts + 1} of ${maxAttempts}:\nEnter a whole number between 1 and 100:`);// Prompt the user for input
 
     if (userInput === null) {
         return null; // user cancelled
