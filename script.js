@@ -1,32 +1,3 @@
-function getPlayerGuess(attemptLabel = "") {
-    const userInput = prompt(`${attemptLabel}Enter a whole number between 1 and 100:`);
-
-    if (userInput === null) {
-        alert("You cancelled the input. Please enter a number to continue.");
-        return null;
-    }
-
-    if (/^\d+$/.test(userInput)) {
-        const userGuess = Number(userInput);
-        if (Number.isInteger(userGuess) && userGuess >= 1 && userGuess <= 100) {
-            return userGuess;
-        }
-    }
-
-    alert("🚫 Invalid input. Please enter a **whole number** between 1 and 100 (no letters or decimals).");
-    return undefined;
-}
-
-function checkGuess(playerGuess, correctNumber) {
-    if (playerGuess < correctNumber) {
-        return "Too low! 🔽 Try a higher number.";
-    } else if (playerGuess > correctNumber) {
-        return "Too high! 🔼 Try a lower number.";
-    } else {
-        return "🎉 Correct! You guessed the number!";
-    }
-}
-
 function playGame() {
     const correctNumber = Math.floor(Math.random() * 100) + 1;
     const maxTries = 10;
@@ -39,12 +10,17 @@ function playGame() {
         const userGuess = getPlayerGuess(attemptLabel);
 
         if (userGuess === null) {
-            // User canceled
             alert("Game cancelled. Goodbye!");
             return;
         }
 
-        attempts++;
+        // Skip incrementing attempts on invalid input
+        if (userGuess === undefined) {
+            continue;
+        }
+
+        attempts++; // Only valid guess gets counted
+
         const result = checkGuess(userGuess, correctNumber);
         alert(result);
 
@@ -65,5 +41,3 @@ function playGame() {
         alert("👋 Thanks for playing! Goodbye.");
     }
 }
-
-playGame();
