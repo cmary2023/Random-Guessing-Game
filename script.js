@@ -1,29 +1,23 @@
 
-//Function to get a valid guess from the player
-function getPlayerGuess(maxAttempts = 5) {
-    let attempts = 0;
+// Function to get a valid guess from the player (no attempt tracking here!)
+function getPlayerGuess(attemptLabel = "") {
+    const userInput = prompt(`${attemptLabel}Enter a whole number between 1 and 100:`);
 
-    while (attempts < maxAttempts) {
-        const userInput = prompt(`Attempt ${attempts + 1} of ${maxAttempts}:\nEnter a whole number between 1 and 100:`);// Prompt the user for input
-
-        // Check if the user pressed Cancel
-        if (userInput === null) {
-            alert("You cancelled the input. Please enter a number to continue.");
-            attempts++;
-            continue;
-        }
-
-        // Check if the input is a valid whole number between 1 and 100
-        if (/^\d+$/.test(userInput)) {
-            const userGuess = Number(userInput);
-            if (Number.isInteger(userGuess) && userGuess >= 1 && userGuess <= 100) {
-                return userGuess;
-            }
-        }
-        // If the input is invalid, alert the user and increment attempts
-        alert("🚫 Invalid input. Please enter a **whole number** between 1 and 100 (no letters or decimals).");
-        attempts++;
+    if (userInput === null) {
+        return null; // user cancelled
     }
+
+    if (/^\d+$/.test(userInput)) {
+        const userGuess = Number(userInput);
+        if (userGuess >= 1 && userGuess <= 100) {
+            return userGuess;
+        }
+    }
+
+    alert("🚫 Invalid input. Please enter a whole number between 1 and 100.");
+    return undefined; // invalid input
+}
+
 
     throw new Error("Too many invalid attempts. Game aborted.");
 }
@@ -41,15 +35,14 @@ function checkGuess(playerGuess, correctNumber) {
 
 //Main function to play the number guessing game
 function playGame() {
-    const correctNumber = Math.floor(Math.random() * 100) + 1;// Generate a random number between 1 and 100
-    const maxTries = 10; // Maximum number of attempts allowed
+   function playGame() {
+    const correctNumber = Math.floor(Math.random() * 100) + 1;
+    const maxTries = 10;
     let attempts = 0;
 
-    // Welcome message and instructions
     alert("🎯 Welcome to the Number Guessing Game!\nI'm thinking of a number between 1 and 100.\nCan you guess it?");
 
-    // Loop until the player guesses the correct number or runs out of attempts
-   while (attempts < maxTries) {
+    while (attempts < maxTries) {
         const attemptLabel = `Attempt ${attempts + 1} of ${maxTries}:\n`;
         const userGuess = getPlayerGuess(attemptLabel);
 
@@ -58,12 +51,12 @@ function playGame() {
             return;
         }
 
-        // Skip incrementing attempts on invalid input
         if (userGuess === undefined) {
+            // invalid input → do NOT count this attempt
             continue;
         }
 
-        attempts++; // Only valid guess gets counted
+        attempts++; // only valid input increases attempts
 
         const result = checkGuess(userGuess, correctNumber);
         alert(result);
@@ -85,4 +78,5 @@ function playGame() {
         alert("👋 Thanks for playing! Goodbye.");
     }
 }
+
 playGame();
