@@ -44,12 +44,6 @@ function playGame() {
             return;
         }
 
-        if (userGuess === undefined) {
-            // Invalid input, but count as an attempt
-            attempts++;
-            continue;
-        }
-
         attempts++;
         const result = checkGuess(userGuess, correctNumber);
         alert(result);
