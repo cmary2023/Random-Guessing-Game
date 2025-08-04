@@ -49,34 +49,40 @@ function playGame() {
     alert("🎯 Welcome to the Number Guessing Game!\nI'm thinking of a number between 1 and 100.\nCan you guess it?");
 
     // Loop until the player guesses the correct number or runs out of attempts
-    while (attempts < maxTries) {
-        try {
-            const userGuess = getPlayerGuess();
-            attempts++;
-            const result = checkGuess(userGuess, correctNumber);
-            alert(result);
-            // If the guess is correct, congratulate the player and exit the loop
-            if (userGuess === correctNumber) {
-                alert(`👏 You got it in ${attempts} attempt${attempts > 1 ? 's' : ''}!`);
-                break;
-            }
-            // If the guess is incorrect, inform the player and continue
-            if (attempts === maxTries) {
-                alert(`😞 You've used all ${maxTries} attempts.\nThe correct number was: ${correctNumber}`);
-            }
-        } catch (error) {
-            alert(error.message);
+   while (attempts < maxTries) {
+        const attemptLabel = `Attempt ${attempts + 1} of ${maxTries}:\n`;
+        const userGuess = getPlayerGuess(attemptLabel);
+
+        if (userGuess === null) {
+            alert("Game cancelled. Goodbye!");
             return;
         }
+
+        // Skip incrementing attempts on invalid input
+        if (userGuess === undefined) {
+            continue;
+        }
+
+        attempts++; // Only valid guess gets counted
+
+        const result = checkGuess(userGuess, correctNumber);
+        alert(result);
+
+        if (userGuess === correctNumber) {
+            alert(`👏 You got it in ${attempts} attempt${attempts > 1 ? 's' : ''}!`);
+            break;
+        }
+
+        if (attempts === maxTries) {
+            alert(`😞 You've used all ${maxTries} attempts.\nThe correct number was: ${correctNumber}`);
+        }
     }
-    // Ask the player if they want to play again
+
     const playAgain = confirm("🔁 Do you want to play again?");
     if (playAgain) {
-        playGame(); // Restart the game
+        playGame();
     } else {
         alert("👋 Thanks for playing! Goodbye.");
     }
 }
-
-// Start the game
 playGame();
