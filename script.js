@@ -1,22 +1,24 @@
 // Function to get a valid guess from the player
-// Now takes 'attempts' and 'maxTries' as arguments to display in the prompt
-function getPlayerGuess(attempts, maxTries) {
-    const promptMessage = `Attempt ${attempts + 1} of ${maxTries}:\nEnter a whole number between 1 and 100:`;
-    const userInput = prompt(promptMessage); // Prompt the user for input
+// It keeps prompting the user until a valid number (1-100) is entered or the user cancels.
+function getPlayerGuess() {
+    while (true) {
+        const userInput = prompt("Enter a whole number between 1 and 100:");
 
-    if (userInput === null) {
-        return null; // user cancelled
-    }
-
-    if (/^\d+$/.test(userInput)) {
-        const userGuess = Number(userInput);
-        if (userGuess >= 1 && userGuess <= 100) {
-            return userGuess;
+        if (userInput === null) {
+            return null; // User cancelled the game
         }
-    }
 
-    alert("🚫 Invalid input. Please enter a whole number between 1 and 100.");
-    return undefined; // invalid input
+        // Check if the input is a valid number between 1 and 100
+        if (/^\d+$/.test(userInput)) {
+            const userGuess = Number(userInput);
+            if (userGuess >= 1 && userGuess <= 100) {
+                return userGuess; // Return the valid guess
+            }
+        }
+
+        // If the input is invalid, alert the user and continue the loop
+        alert("🚫 Invalid input. Please enter a whole number between 1 and 100.");
+    }
 }
 
 // Function to check the player's guess against the correct number
@@ -39,37 +41,34 @@ function playGame() {
     alert("🎯 Welcome to the Number Guessing Game!\nI'm thinking of a number between 1 and 100.\nCan you guess it?");
 
     while (attempts < maxTries) {
-        // Pass the current 'attempts' and 'maxTries' to the function
-        const userGuess = getPlayerGuess(attempts, maxTries);
+        // Get a valid guess from the player (no need for a label here anymore)
+        const userGuess = getPlayerGuess();
 
         if (userGuess === null) {
             alert("Game cancelled. Goodbye!");
-            return;
+            return; // Exit the game
         }
 
-        if (userGuess === undefined) {
-            // invalid input → do NOT count this attempt
-            continue;
-        }
-
-        attempts++; // only valid input increases attempts
+        attempts++; // A valid guess was made, so increment attempts
 
         const result = checkGuess(userGuess, correctNumber);
-        alert(result);
+        alert(`Attempt ${attempts} of ${maxTries}: ${result}`);
 
         if (userGuess === correctNumber) {
             alert(`👏 You got it in ${attempts} attempt${attempts > 1 ? 's' : ''}!`);
-            break;
-        }
-
-        if (attempts === maxTries) {
-            alert(`😞 You've used all ${maxTries} attempts.\nThe correct number was: ${correctNumber}`);
+            break; // Exit the loop because the player won
         }
     }
 
+    // Check if the loop ended because the player ran out of attempts
+    if (attempts === maxTries && userGuess !== correctNumber) {
+        alert(`😞 You've used all ${maxTries} attempts.\nThe correct number was: ${correctNumber}`);
+    }
+
+    // Ask to play again
     const playAgain = confirm("🔁 Do you want to play again?");
     if (playAgain) {
-        playGame(); // Recursive call to restart the game
+        playGame(); // Start a new game
     } else {
         alert("👋 Thanks for playing! Goodbye.");
     }
