@@ -1,9 +1,11 @@
 function playGame() {
+     alert("🎯 Welcome to the Number Guessing Game!\nI'm thinking of a number between 1 and 100.\nCan you guess it?");
+    
     const correctNumber = Math.floor(Math.random() * 100) + 1;
     const maxTries = 10;
     let attempts = 0;
 
-    alert("🎯 Welcome to the Number Guessing Game!\nI'm thinking of a number between 1 and 100.\nCan you guess it?");
+   
 
     while (attempts < maxTries) {
         const attemptLabel = `Attempt ${attempts + 1} of ${maxTries}:\n`;
