@@ -20,9 +20,6 @@ function getPlayerGuess(maxAttempts = 5) {
 }
 
 
-    throw new Error("Too many invalid attempts. Game aborted.");
-
-
 //Function to check the player's guess against the correct number
 function checkGuess(playerGuess, correctNumber) {
     if (playerGuess < correctNumber) {
