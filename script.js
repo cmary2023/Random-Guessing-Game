@@ -1,10 +1,8 @@
 
 // Function to get a valid guess from the player (no attempt tracking here!)
 function getPlayerGuess(maxAttempts = 5) {
-    let attempts = 0;
 
-    while (attempts < maxAttempts) {
-        const userInput = prompt(`Attempt ${attempts + 1} of ${maxAttempts}:\nEnter a whole number between 1 and 100:`);// Prompt the user for input
+ const userInput = prompt(`Attempt ${attempts + 1} of ${maxAttempts}:\nEnter a whole number between 1 and 100:`);// Prompt the user for input
 
     if (userInput === null) {
         return null; // user cancelled
@@ -23,7 +21,7 @@ function getPlayerGuess(maxAttempts = 5) {
 
 
     throw new Error("Too many invalid attempts. Game aborted.");
-}
+
 
 //Function to check the player's guess against the correct number
 function checkGuess(playerGuess, correctNumber) {
@@ -37,7 +35,6 @@ function checkGuess(playerGuess, correctNumber) {
 }
 
 //Main function to play the number guessing game
-function playGame() {
    function playGame() {
     const correctNumber = Math.floor(Math.random() * 100) + 1;
     const maxTries = 10;
